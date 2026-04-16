@@ -3,64 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agenda ET N°4 - Gestión 2026</title>
+    <title>Agenda Técnica N°4 - 2026</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
     <style>
         h1, h2, h3, .font-oswald { font-family: 'Oswald', sans-serif; }
-        body { font-family: 'Source Sans 3', sans-serif; background-color: #f0f7f0; color: #1a3c1a; }
+        body { font-family: 'Source Sans 3', sans-serif; background-color: #f7faf7; color: #1a3c1a; }
         
-        .bg-et4-dark { background-color: #1b4332; }
-        .bg-et4-mid { background-color: #2d6a4f; }
-        .bg-et4-light { background-color: #d8f3dc; }
+        /* Paleta de Verdes Técnicos (Gama) */
+        .bg-et4-dark { background-color: #1b4332; } /* Encabezado */
+        .bg-et4-mid { background-color: #2d6a4f; }  /* Botones principales */
+        .bg-et4-light { background-color: #d8f3dc; } /* Fondo tarjetas */
         .text-et4 { color: #1b4332; }
+        .border-et4 { border-color: #2d6a4f; }
 
-        /* Estilo Toggle Checkbox */
-        .toggle-checkbox:checked { right: 0; border-color: #2d6a4f; background-color: #2d6a4f; }
-        .toggle-checkbox { right: 4px; transition: all 0.3s; border: 2px solid #cbd5e0; }
-        .toggle-label { background-color: #cbd5e0; transition: background-color 0.3s; }
-        .toggle-checkbox:checked + .toggle-label { background-color: #b7e4c7; }
+        /* Estilo Botones Selectores Directos (como en tus fotos) */
+        .selector-btn { border: 2px solid #e2e8f0; background: white; padding: 10px; border-radius: 10px; font-weight: 600; text-align: center; cursor: pointer; transition: 0.2s; }
+        .selector-btn:hover { border-color: #a7f3d0; background-color: #f0fdf4; }
+        .selector-btn.selected { border-color: #2d6a4f; background-color: #b7e4c7; color: #1b4332; box-shadow: 0 0 0 3px rgba(45, 106, 79, 0.2); }
 
-        /* Marcadores de Bimestre/Cuatrimestre */
-        .marker-period { border-left: 4px solid #d946ef; padding-left: 8px; } /* Magenta como pediste */
+        /* Estilo Toggles (Sí/No) */
+        .toggle-label { background-color: #cbd5e0; transition: 0.3s; }
+        .toggle-checkbox:checked + .toggle-label { background-color: #2d6a4f; }
         
-        .modal-scroll { max-height: 80vh; overflow-y: auto; scrollbar-width: thin; }
-        input, select, textarea { border: 1.5px solid #e2e8f0; border-radius: 8px; padding: 10px; width: 100%; outline: none; transition: 0.2s; }
+        .modal-body { max-height: 75vh; overflow-y: auto; padding-right: 15px; scrollbar-width: thin; }
+        input, select, textarea { border: 2px solid #e2e8f0; border-radius: 12px; padding: 12px; width: 100%; outline: none; transition: 0.2s; }
         input:focus { border-color: #2d6a4f; box-shadow: 0 0 0 3px rgba(45, 106, 79, 0.1); }
     </style>
 </head>
 <body class="p-0 m-0">
 
-    <header class="bg-et4-dark text-white p-6 shadow-2xl">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div>
-                <h1 class="text-3xl font-bold uppercase tracking-wider">Agenda Escolar Técnica N°4</h1>
-                <p class="opacity-80 font-light">Ciclo Lectivo 2026 | Quilmes</p>
-            </div>
-            <button onclick="document.getElementById('modalForm').classList.remove('hidden')" class="bg-white text-green-900 px-8 py-3 rounded-xl font-bold hover:bg-green-100 transition transform hover:scale-105 shadow-lg">
-                ➕ NUEVO REGISTRO
-            </button>
+    <header class="bg-et4-dark text-white p-6 shadow-2xl flex justify-between items-center">
+        <div>
+            <h1 class="text-3xl font-bold tracking-tight uppercase">AGENDA TÉCNICA N°4</h1>
+            <p class="opacity-80 font-light">Ciclo Lectivo 2026 | Sistema Integrado</p>
         </div>
+        <button onclick="document.getElementById('modalForm').classList.remove('hidden')" class="bg-white text-green-900 px-8 py-3 rounded-full font-bold hover:bg-green-100 transition transform hover:scale-105 shadow-lg">
+            ➕ NUEVO REGISTRO
+        </button>
     </header>
 
-    <main class="max-w-7xl mx-auto p-6 grid grid-cols-1 lg:grid-cols-4 gap-8">
-        <div class="lg:col-span-1 space-y-6">
-            <div class="bg-white p-5 rounded-2xl shadow-sm border-t-4 border-magenta-500">
-                <h3 class="font-oswald text-lg mb-3 flex items-center gap-2">📌 HITOS 2026</h3>
-                <ul class="text-sm space-y-2">
-                    <li class="marker-period"><b>02 Mar:</b> Inicio de Clases</li>
-                    <li class="marker-period"><b>30 Abr:</b> Cierre 1° Bimestre</li>
-                    <li class="marker-period"><b>10 Jul:</b> Cierre 1° Cuatrimestre</li>
-                    <li class="marker-period"><b>20 Jul - 31 Jul:</b> Receso Invernal</li>
-                    <li class="marker-period"><b>18 Dic:</b> Fin de Clases</li>
+    <main class="max-w-7xl mx-auto p-6 grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div class="md:col-span-1 space-y-6">
+            <div class="bg-white p-6 rounded-3xl shadow-lg border border-gray-100">
+                <h3 class="font-oswald text-lg text-et4 mb-3">📅 Hitos Educativos</h3>
+                <ul class="text-sm space-y-2 border-l-4 border-magenta-500 pl-3">
+                    <li>02 Mar: Inicio Clases</li>
+                    <li>30 Abr: Cierre 1° Bimestre</li>
+                    <li>20 Jul: Receso Invernal</li>
+                    <li>18 Dic: Fin Clases</li>
                 </ul>
             </div>
         </div>
 
-        <div class="lg:col-span-3">
-            <h2 class="font-oswald text-2xl mb-6 text-et4">CRONOGRAMA DE ACTIVIDADES</h2>
-            <div id="contenedorEventos" class="grid gap-4">
-                </div>
+        <div class="md:col-span-3 space-y-4" id="contenedorEventos">
+            <p class="text-gray-400 italic">Cargando cronograma...</p>
         </div>
     </main>
 
@@ -71,24 +68,20 @@
                 <button onclick="document.getElementById('modalForm').classList.add('hidden')" class="text-3xl">&times;</button>
             </div>
             
-            <form id="mainForm" class="p-8 modal-scroll space-y-6">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label class="text-xs font-bold text-gray-400 uppercase">Solicitante</label>
-                        <select id="rol" class="mt-1">
-                            <option>Profesor/es</option>
-                            <option>Coordinación</option>
-                            <option>Equipo Directivo</option>
-                            <option>DOE</option>
-                        </select>
+            <form id="mainForm" class="p-8 modal-body space-y-6">
+                <div>
+                    <label class="text-xs font-bold text-gray-400 uppercase">Solicitante</label>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-1" id="groupRol">
+                        <div class="selector-btn" onclick="selectItem(this, 'Profesor/es')">Profesor</div>
+                        <div class="selector-btn" onclick="selectItem(this, 'Directivo')">Directivo</div>
+                        <div class="selector-btn" onclick="selectItem(this, 'DOE')">DOE</div>
+                        <div class="selector-btn" onclick="selectItem(this, 'Coord.')">Coord.</div>
                     </div>
-                    <div>
-                        <label class="text-xs font-bold text-gray-400 uppercase">Nombres</label>
-                        <input type="text" id="nombres" placeholder="Apellido y Nombre" required class="mt-1">
-                    </div>
+                    <input type="hidden" id="rol" required>
+                    <input type="text" id="nombres" placeholder="Nombres del personal..." required class="mt-3">
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label class="text-xs font-bold text-gray-400 uppercase">Fecha</label>
                         <input type="date" id="fecha" required class="mt-1">
@@ -100,118 +93,86 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="text-xs font-bold text-gray-400 uppercase">Año</label>
-                        <select id="año" class="mt-1">
-                            <option>1°</option><option>2°</option><option>3°</option><option>4°</option><option>5°</option><option>6°</option>
-                        </select>
+                <div>
+                    <label class="text-xs font-bold text-gray-400 uppercase">Curso</label>
+                    <div class="grid grid-cols-3 sm:grid-cols-6 gap-2 mt-1" id="groupAnio">
+                        <div class="selector-btn text-sm" onclick="selectItem(this, '1°', 'anio')">1°</div>
+                        <div class="selector-btn text-sm" onclick="selectItem(this, '2°', 'anio')">2°</div>
+                        <div class="selector-btn text-sm" onclick="selectItem(this, '3°', 'anio')">3°</div>
+                        <div class="selector-btn text-sm" onclick="selectItem(this, '4°', 'anio')">4°</div>
+                        <div class="selector-btn text-sm" onclick="selectItem(this, '5°', 'anio')">5°</div>
+                        <div class="selector-btn text-sm" onclick="selectItem(this, '6°', 'anio')">6°</div>
                     </div>
-                    <div>
-                        <label class="text-xs font-bold text-gray-400 uppercase">División</label>
-                        <select id="division" class="mt-1">
-                            <option>1°</option><option>2°</option><option>3°</option><option>4°</option><option>5°</option><option>6°</option>
-                        </select>
+                    <input type="hidden" id="anio" required>
+                </div>
+
+                <div class="bg-gray-50 p-5 rounded-xl border border-gray-100">
+                    <label class="text-xs font-bold text-gray-400 uppercase mb-4 block">Tipo de Actividad</label>
+                    <div class="grid grid-cols-2 gap-4">
+                        <label class="flex justify-between items-center">Acto Escolar 
+                            <input type="checkbox" name="tipo" value="Acto" class="w-5 h-5 accent-green-700"></label>
+                        <label class="flex justify-between items-center">Salida Didáctica 
+                            <input type="checkbox" name="tipo" value="Salida" class="w-5 h-5 accent-green-700"></label>
+                        <label class="flex justify-between items-center">Reunión 
+                            <input type="checkbox" name="tipo" value="Reunión" class="w-5 h-5 accent-green-700"></label>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label class="text-xs font-bold text-gray-400 uppercase">Área</label>
-                        <select id="area" class="mt-1">
-                            <option>Ciencias Sociales</option>
-                            <option>Ciencias Naturales</option>
-                            <option>Comunicación</option>
-                            <option>Técnica/Taller</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="text-xs font-bold text-gray-400 uppercase">Materia</label>
-                        <div class="flex gap-2 mt-1">
-                            <input type="text" id="materia" list="listaMaterias" placeholder="Materia...">
-                            <datalist id="listaMaterias"></datalist>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-gray-50 p-4 rounded-xl">
-                    <label class="text-xs font-bold text-gray-400 uppercase mb-3 block">Tipo de Actividad</label>
-                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-                        <label class="flex items-center gap-2 cursor-pointer">
-                            <input type="checkbox" name="tipo" value="Acto" class="w-4 h-4 accent-green-700"> Acto Escolar
-                        </label>
-                        <label class="flex items-center gap-2 cursor-pointer">
-                            <input type="checkbox" name="tipo" value="Salida" class="w-4 h-4 accent-green-700"> Salida Didáctica
-                        </label>
-                        <label class="flex items-center gap-2 cursor-pointer">
-                            <input type="checkbox" name="tipo" value="Reunion" class="w-4 h-4 accent-green-700"> Reunión
-                        </label>
-                    </div>
-                </div>
-
-                <textarea id="obs" placeholder="Observaciones adicionales..." rows="3"></textarea>
-
-                <button type="submit" id="btnS" class="w-full bg-et4-mid text-white py-4 rounded-2xl font-oswald text-xl hover:bg-et4-dark transition shadow-xl">
-                    GUARDAR EN AGENDA
-                </button>
+                <button type="submit" id="btnS" class="w-full bg-et4-mid text-white py-4 rounded-2xl font-oswald text-xl hover:bg-et4-dark transition shadow-xl">GUARDAR REGISTRO</button>
             </form>
         </div>
     </div>
 
     <script>
-        const SCRIPT_URL =https://script.google.com/macros/s/AKfycbzvkAd7W_ilsEBYtdVXDPfjen0eciM67fn6yVYHw6_FV5E0lxfwnr45q_qsa53eVrUK/exec;
+        const SCRIPT_URL = https://script.google.com/macros/s/AKfycbzvkAd7W_ilsEBYtdVXDPfjen0eciM67fn6yVYHw6_FV5E0lxfwnr45q_qsa53eVrUK/exec;
 
-        // 1. Generar Horarios cada 5 min
-        const selectHora = document.getElementById('hora');
-        for(let h=7; h<=22; h++) {
+        // Generar horas cada 5 min (Sin errores de rango)
+        const hSel = document.getElementById('hora');
+        for(let h=7; h<=21; h++) {
             for(let m=0; m<60; m+=5) {
-                let time = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}`;
-                let opt = document.createElement('option');
-                opt.value = time; opt.innerText = time;
-                selectHora.appendChild(opt);
+                let t = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}`;
+                hSel.innerHTML += `<option value="${t}">${t}</option>`;
             }
         }
 
-        // 2. Cargar Datos
+        // Función para los selectores directos
+        function selectItem(el, value, type='rol') {
+            const group = el.parentElement;
+            group.querySelectorAll('.selector-btn').forEach(b => b.classList.remove('selected'));
+            el.classList.add('selected');
+            document.getElementById(type).value = value;
+        }
+
         async function cargar() {
             const res = await fetch(SCRIPT_URL);
             const data = await res.json();
-            const cont = document.getElementById('contenedorEventos');
-            cont.innerHTML = data.reverse().map(ev => `
-                <div class="bg-white p-6 rounded-2xl shadow-sm border-l-8 border-green-600 flex justify-between items-center">
+            document.getElementById('contenedorEventos').innerHTML = data.reverse().map(ev => `
+                <div class="bg-white p-6 rounded-3xl shadow-sm border-l-8 border-green-600 flex justify-between items-center">
                     <div>
                         <span class="text-xs font-bold px-2 py-1 bg-green-100 text-green-800 rounded-md">${ev.fecha} | ${ev.hora}hs</span>
-                        <h3 class="text-xl font-bold mt-2 font-oswald uppercase text-et4">${ev.materia || 'SIN ESPECIFICAR'}</h3>
-                        <p class="text-sm text-gray-500">${ev.año} ${ev.division} - ${ev.nombres} (${ev.area})</p>
+                        <h3 class="text-xl font-bold mt-2 font-oswald text-et4 uppercase">${ev.observaciones || 'Actividad Escolar'}</h3>
+                        <p class="text-sm text-gray-500">${ev.anio} - ${ev.nombres} (${ev.rol})</p>
                     </div>
-                    <div class="text-right text-xs font-bold text-gray-300">ET N4</div>
+                    <div class="text-right text-xs text-gray-300">ET N4</div>
                 </div>
             `).join('');
         }
 
-        // 3. Enviar Datos
         document.getElementById('mainForm').onsubmit = async (e) => {
             e.preventDefault();
-            const btn = document.getElementById('btnS');
-            btn.innerText = "PROCESANDO..."; btn.disabled = true;
-
-            const payload = {
+            const btn = document.getElementById('btnS'); btn.innerText = "PROCESANDO..."; btn.disabled = true;
+            const data = {
                 fecha: document.getElementById('fecha').value,
                 hora: document.getElementById('hora').value,
                 nombres: document.getElementById('nombres').value,
-                año: document.getElementById('año').value,
-                division: document.getElementById('division').value,
-                area: document.getElementById('area').value,
-                materia: document.getElementById('materia').value,
-                observaciones: document.getElementById('obs').value,
-                rol: document.getElementById('rol').value
+                rol: document.getElementById('rol').value,
+                anio: document.getElementById('anio').value,
+                observaciones: document.getElementById('materia').value, // Lo guardamos en obs por ahora
+                division: '1°', area: '-', materia: '-', categoria: 'Evento'
             };
-
-            await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
-            alert("¡Guardado exitoso!");
-            location.reload();
+            await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(data) });
+            alert("¡Registro guardado!"); location.reload();
         }
-
         cargar();
     </script>
 </body>
