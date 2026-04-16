@@ -3,188 +3,196 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agenda ET N°4 - 2026</title>
+    <title>Agenda Técnica N°4 - 2026</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        :root { --verde-dark: #1b1b1b; --verde-med: #2d6a4f; --verde-light: #d8f3dc; --magenta: #d946ef; --cyan: #06b6d4; --amarillo: #fbbf24; }
+        :root { --v-dark: #1a1a1a; --v-et4: #2d6a4f; --magenta: #d946ef; --cyan: #06b6d4; --amarillo: #fbbf24; }
         h1, h2, h3, .font-oswald { font-family: 'Oswald', sans-serif; }
-        body { font-family: 'Source Sans 3', sans-serif; background-color: #1a1a1a; color: white; }
+        body { font-family: 'Source Sans 3', sans-serif; background-color: var(--v-dark); color: white; margin: 0; padding: 15px; }
         
-        /* Calendario Grilla */
-        .calendar-card { background: #262626; border-radius: 20px; overflow: hidden; }
-        .day-box { background: white; color: #444; min-height: 80px; padding: 5px; border: 0.5px solid #eee; transition: 0.2s; }
+        /* Calendario Grilla Real */
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; background: #444; border: 2px solid #444; border-radius: 15px; overflow: hidden; }
+        .day-box { background: white; color: #333; min-height: 100px; padding: 8px; position: relative; transition: 0.2s; }
         .day-box:hover { background: #f0fdf4; cursor: pointer; }
-        .day-box.weekend { background: #f9f9f9; color: #aaa; }
-        .day-box.today { background: #fef3c7 !important; border: 2px solid var(--amarillo); }
-        .day-box.feriado { background: #fce7f3 !important; }
-        .day-box.receso { background: #e0f2fe !important; }
+        .day-name { background: #1b4332; color: white; text-align: center; padding: 10px; font-weight: bold; font-size: 0.7rem; }
         
-        .badge-fer { background: var(--magenta); color: white; font-size: 9px; padding: 1px 4px; border-radius: 4px; }
-        .badge-act { background: var(--verde-med); color: white; font-size: 9px; padding: 1px 4px; border-radius: 4px; }
+        .other-month { background: #e5e7eb; color: #9ca3af; }
+        .is-today { background: #fef3c7 !important; border: 3px solid var(--amarillo); }
+        .is-feriado { background: #fce7f3 !important; }
+        .is-receso { background: #e0f2fe !important; }
+        .marker-magenta { border-bottom: 5px solid var(--magenta) !important; }
+        
+        .event-dot { background: var(--v-et4); color: white; font-size: 9px; padding: 2px 4px; border-radius: 4px; margin-top: 2px; display: block; overflow: hidden; white-space: nowrap; }
 
-        /* Formulario Estilo Foto */
-        .modal-content { background: white; color: #333; border-radius: 25px; max-height: 90vh; overflow-y: auto; }
-        .btn-tipo { border: 1.5px solid #ddd; padding: 8px 12px; border-radius: 10px; font-size: 12px; font-weight: 600; cursor: pointer; display: flex; items-center; gap: 5px; }
-        .btn-tipo.active { border-color: var(--verde-med); background: #f0fdf4; color: var(--verde-med); }
-        .dot { width: 8px; height: 8px; border-radius: 50%; background: #ccc; }
-        .active .dot { background: var(--verde-med); }
+        /* Modal Estilo Screenshot */
+        .modal-overlay { background: rgba(0,0,0,0.9); backdrop-blur: 5px; }
+        .modal-card { background: white; color: #333; border-radius: 25px; width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; }
+        .type-btn { border: 2px solid #eee; padding: 10px; border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 11px; display: flex; align-items: center; gap: 6px; }
+        .type-btn.active { border-color: var(--v-et4); background: #f0fdf4; color: var(--v-et4); }
+        .dot-status { width: 8px; height: 8px; border-radius: 50%; background: #ccc; }
+        .active .dot-status { background: var(--v-et4); }
+        
+        input, select, textarea { border-bottom: 2px solid #eee; padding: 10px; width: 100%; outline: none; background: transparent; }
+        input:focus { border-color: var(--v-et4); }
     </style>
 </head>
-<body class="p-4">
+<body>
 
-    <header class="max-w-md mx-auto mb-6">
-        <div class="bg-[#262626] p-6 rounded-3xl border-l-[15px] border-verde-med relative overflow-hidden">
-            <h1 class="text-xl font-bold leading-tight uppercase">Escuela Técnica N°4</h1>
-            <h2 class="text-3xl font-bold text-verde-med uppercase mb-2">Agenda Digital 2026</h2>
-            <p class="text-xs tracking-widest opacity-60">SISTEMA DE GESTIÓN INSTITUCIONAL</p>
-        </div>
-        
-        <div class="grid grid-cols-2 gap-2 mt-4 text-[10px] uppercase font-bold tracking-wider opacity-80">
-            <div class="flex items-center gap-2"><span class="w-3 h-3 rounded bg-magenta-500"></span> Feriado Nacional</div>
-            <div class="flex items-center gap-2"><span class="w-3 h-3 rounded bg-cyan-500"></span> Receso Invernal</div>
-            <div class="flex items-center gap-2"><span class="w-3 h-3 rounded bg-verde-med"></span> Con Actividad</div>
-            <div class="flex items-center gap-2"><span class="w-3 h-3 rounded bg-amber-400"></span> Hoy</div>
-        </div>
+    <header class="max-w-4xl mx-auto mb-6 bg-[#1b4332] p-6 rounded-3xl border-l-[15px] border-[#d946ef] shadow-2xl">
+        <h1 class="text-2xl font-bold uppercase tracking-tighter">AGENDA TÉCNICA N°4</h1>
+        <p class="text-cyan-400 font-bold uppercase text-[10px]">Gestión 2026 • Quilmes (CABA)</p>
     </header>
 
-    <main class="max-w-md mx-auto">
-        <div class="flex justify-between items-center mb-4">
-            <button class="bg-magenta-500 p-2 rounded-lg">◀</button>
-            <div class="text-center">
-                <h3 class="text-4xl font-bold uppercase italic">Abril 2026</h3>
-                <p class="text-cyan-400 text-xs font-bold uppercase">1° Bimestre • 1° Cuatrimestre</p>
-            </div>
-            <button class="bg-magenta-500 p-2 rounded-lg">▶</button>
+    <div class="max-w-4xl mx-auto flex justify-between items-center mb-6">
+        <button onclick="changeMonth(-1)" class="bg-[#d946ef] p-3 rounded-xl">◀</button>
+        <div class="text-center">
+            <h2 id="mesTit" class="text-4xl font-bold uppercase italic tracking-widest">Abril 2026</h2>
+            <p id="subTit" class="text-cyan-400 font-bold text-xs uppercase"></p>
         </div>
+        <button onclick="changeMonth(1)" class="bg-[#d946ef] p-3 rounded-xl">▶</button>
+    </div>
 
-        <div class="calendar-card shadow-2xl">
-            <div class="grid grid-cols-7 text-center py-3 bg-[#333] text-[10px] font-bold">
-                <div class="text-cyan-400">LUN</div><div class="text-magenta-400">MAR</div><div class="text-amber-400">MIÉ</div>
-                <div>JUE</div><div class="text-cyan-400">VIE</div><div>SÁB</div><div class="text-amber-400">DOM</div>
-            </div>
-            <div id="calendar-grid" class="grid grid-cols-7">
-                </div>
-            <div class="bg-magenta-500 h-2 w-full mt-[-2px]"></div>
-        </div>
-    </main>
+    <div id="calendar" class="calendar-grid max-w-4xl mx-auto shadow-2xl"></div>
 
-    <div id="modal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-end sm:items-center justify-center p-4">
-        <div class="modal-content w-full max-w-md p-6 shadow-2xl transform transition-all">
-            <div class="flex justify-between items-center mb-4 border-b pb-2">
+    <div id="modal" class="fixed inset-0 modal-overlay hidden z-50 flex items-center justify-center p-4">
+        <div class="modal-card shadow-2xl">
+            <div class="bg-[#1b4332] p-5 text-white flex justify-between items-center">
                 <div>
-                    <h2 id="modal-title" class="text-xl font-bold text-gray-800 uppercase italic">Sábado 11 de Abril</h2>
-                    <p class="text-[10px] text-cyan-600 font-bold uppercase">NUEVA ACTIVIDAD</p>
+                    <h2 id="mFecha" class="font-oswald text-xl italic uppercase">Fecha</h2>
+                    <p class="text-[10px] text-cyan-300 font-bold uppercase tracking-widest">Nueva Actividad</p>
                 </div>
-                <button onclick="closeModal()" class="bg-magenta-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">✕</button>
+                <button onclick="closeModal()" class="bg-[#d946ef] w-8 h-8 rounded-full flex items-center justify-center font-bold">✕</button>
             </div>
-
-            <form id="form" class="space-y-4 text-sm">
-                <div>
-                    <label class="text-[10px] font-bold text-gray-400 uppercase">Profesor/es</label>
-                    <input type="text" id="nombres" placeholder="Nombre/s del docente" class="w-full border-b-2 py-2 outline-none focus:border-verde-med">
+            
+            <form id="fAg" class="p-8 space-y-6">
+                <div class="grid grid-cols-2 gap-4">
+                    <select id="rol"><option>Profesor/es</option><option>DOE</option><option>Directivo</option><option>Coordinación</option></select>
+                    <input type="text" id="doc" placeholder="Nombre/s del docente" required>
                 </div>
 
                 <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="text-[10px] font-bold text-gray-400 uppercase">Año</label>
-                        <select id="anio" class="w-full border-b-2 py-2 outline-none bg-transparent">
-                            <option>1°</option><option>2°</option><option>3°</option><option>4°</option><option>5°</option><option>6°</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="text-[10px] font-bold text-gray-400 uppercase">División</label>
-                        <select id="divi" class="w-full border-b-2 py-2 outline-none bg-transparent">
-                            <option>1°</option><option>2°</option><option>3°</option><option>4°</option><option>5°</option><option>6°</option>
-                        </select>
-                    </div>
+                    <select id="anio" onchange="checkColision()"><option value="">Año...</option><option>1°</option><option>2°</option><option>3°</option><option>4°</option><option>5°</option><option>6°</option></select>
+                    <select id="divi" onchange="checkColision()"><option value="">División...</option><option>1°</option><option>2°</option><option>3°</option><option>4°</option><option>5°</option><option>6°</option></select>
                 </div>
 
-                <div>
-                    <label class="text-[10px] font-bold text-gray-400 uppercase">Materia</label>
-                    <input type="text" id="materia" placeholder="Nombre de la materia" class="w-full border-b-2 py-2 outline-none focus:border-verde-med">
+                <div class="grid grid-cols-2 gap-4">
+                    <select id="area"><option>Cs. Sociales</option><option>Cs. Naturales</option><option>Comunicación</option><option>Técnica</option></select>
+                    <input type="text" id="mat" placeholder="Materia / Proyecto">
                 </div>
 
                 <div class="grid grid-cols-2 gap-4 items-center">
-                    <div>
-                        <label class="text-[10px] font-bold text-gray-400 uppercase">Horario Inicio</label>
-                        <select id="h1" class="w-full border-b-2 py-2 bg-transparent"></select>
-                    </div>
-                    <div class="text-center pt-4">→</div>
-                    <div>
-                        <label class="text-[10px] font-bold text-gray-400 uppercase">Horario Fin</label>
-                        <select id="h2" class="w-full border-b-2 py-2 bg-transparent"></select>
-                    </div>
+                    <div><label class="text-[9px] font-bold text-gray-400 uppercase">Inicio</label><select id="h1" onchange="checkColision()"></select></div>
+                    <div><label class="text-[9px] font-bold text-gray-400 uppercase">Fin</label><select id="h2"></select></div>
                 </div>
 
                 <div>
-                    <label class="text-[10px] font-bold text-gray-400 uppercase mb-2 block">Tipo de Evento</label>
+                    <label class="text-[9px] font-bold text-gray-400 uppercase mb-2 block">Tipo de Evento</label>
                     <div class="grid grid-cols-2 gap-2">
-                        <div class="btn-tipo" onclick="toggleTipo(this, 'ACTO')"><span class="dot"></span> ACTO ESCOLAR</div>
-                        <div class="btn-tipo" onclick="toggleTipo(this, 'SALIDA')"><span class="dot"></span> SALIDA DIDÁCTICA</div>
-                        <div class="btn-tipo" onclick="toggleTipo(this, 'REUNION')"><span class="dot"></span> REUNIÓN</div>
-                        <div class="btn-tipo" onclick="toggleTipo(this, 'EVENTO')"><span class="dot"></span> EVENTO EDUCATIVO</div>
+                        <div class="type-btn" onclick="setT(this, 'ACTO')"><span class="dot-status"></span> ACTO ESCOLAR</div>
+                        <div class="type-btn" onclick="setT(this, 'SALIDA')"><span class="dot-status"></span> SALIDA DIDÁCTICA</div>
+                        <div class="type-btn" onclick="setT(this, 'REUNION')"><span class="dot-status"></span> REUNIÓN</div>
+                        <div class="type-btn" onclick="setT(this, 'OTRO')"><span class="dot-status"></span> EVENTO EDUCATIVO</div>
                     </div>
                 </div>
 
-                <div class="flex gap-2 pt-4">
-                    <button type="button" onclick="closeModal()" class="flex-1 py-3 bg-gray-100 rounded-xl font-bold text-gray-500">Cancelar</button>
-                    <button type="submit" class="flex-[2] py-3 bg-[#1b1b1b] text-verde-light rounded-xl font-bold shadow-lg border-b-4 border-black active:border-0">✓ Guardar actividad</button>
-                </div>
+                <div id="err" class="hidden bg-red-100 text-red-700 p-3 rounded-xl text-xs font-bold">⚠️ Ya existe una reserva para este curso en este horario.</div>
+
+                <button type="submit" id="btnG" class="w-full bg-[#1b1b1b] text-white py-4 rounded-2xl font-bold shadow-xl border-b-4 border-black">✓ Guardar actividad</button>
             </form>
         </div>
     </div>
 
     <script>
         const SCRIPT_URL = https://script.google.com/macros/s/AKfycbzvkAd7W_ilsEBYtdVXDPfjen0eciM67fn6yVYHw6_FV5E0lxfwnr45q_qsa53eVrUK/exec;
+        let nav = new Date(2026, 3, 1);
+        let evs = [];
+        let tSel = "";
 
-        // Generar Horarios 5 min
-        const selects = ['h1', 'h2'];
-        selects.forEach(s => {
-            const el = document.getElementById(s);
-            for(let h=7; h<=21; h++){
-                for(let m=0; m<60; m+=5){
-                    let t = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}`;
-                    el.innerHTML += `<option value="${t}">${t}</option>`;
-                }
-            }
-        });
-
-        function openModal(dia) {
-            document.getElementById('modal-title').innerText = `${dia} de Abril 2026`;
-            document.getElementById('modal').classList.remove('hidden');
+        // Llenar horas 5 min
+        const s1 = document.getElementById('h1'); const s2 = document.getElementById('h2');
+        for(let h=7; h<=21; h++) for(let m=0; m<60; m+=5) {
+            let t = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}`;
+            s1.innerHTML += `<option value="${t}">${t}</option>`; s2.innerHTML += `<option value="${t}">${t}</option>`;
         }
-        function closeModal() { document.getElementById('modal').classList.add('hidden'); }
-        function toggleTipo(el, val) {
-            document.querySelectorAll('.btn-tipo').forEach(b => b.classList.remove('active'));
-            el.classList.add('active');
+
+        async function init() {
+            try { const r = await fetch(SCRIPT_URL); evs = await r.json(); render(); } catch(e) { render(); }
+        }
+
+        function checkColision() {
+            const f = document.getElementById('mFecha').innerText;
+            const h = document.getElementById('h1').value;
+            const a = document.getElementById('anio').value;
+            const d = document.getElementById('divi').value;
+            const c = evs.some(e => e.fecha === f && e.hora === h && e.anio === a && e.division === d);
+            document.getElementById('err').classList.toggle('hidden', !c);
+            document.getElementById('btnG').disabled = c;
+            document.getElementById('btnG').style.opacity = c ? "0.5" : "1";
         }
 
         function render() {
-            const grid = document.getElementById('calendar-grid');
-            for(let i=1; i<=30; i++) {
-                let clase = "day-box";
-                let badge = "";
-                if(i==2 || i==3) { clase += " feriado"; badge = '<span class="badge-fer">FER</span>'; }
-                if(i==16) { clase += " today"; badge = '<span class="badge-fer !bg-black">HOY</span>'; }
-                if(i==17) { clase += " receso"; badge = '<span class="badge-act">ACTIVIDAD</span>'; }
-                
+            const grid = document.getElementById('calendar');
+            const tit = document.getElementById('mesTit');
+            const sub = document.getElementById('subTit');
+            const meses = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
+            
+            tit.innerText = `${meses[nav.getMonth()]} ${nav.getFullYear()}`;
+            // Hitos PDF
+            const m = nav.getMonth();
+            if(m==2) sub.innerText = "Inicio Ciclo Lectivo: 2 de Marzo";
+            else if(m==3) sub.innerText = "1° Bimestre / 1° Cuatrimestre";
+            else if(m==6) sub.innerText = "Cierre 1° Cuat. / Receso Invernal";
+            else if(m==11) sub.innerText = "Finalización de Clases: 18 de Dic";
+            else sub.innerText = "";
+
+            grid.innerHTML = ["LUN","MAR","MIÉ","JUE","VIE","SÁB","DOM"].map(d => `<div class="day-name">${d}</div>`).join('');
+
+            const first = new Date(nav.getFullYear(), nav.getMonth(), 1);
+            const last = new Date(nav.getFullYear(), nav.getMonth() + 1, 0);
+            let shift = first.getDay() === 0 ? 6 : first.getDay() - 1;
+
+            for(let i=0; i<shift; i++) grid.innerHTML += `<div class="day-box other-month"></div>`;
+
+            for(let d=1; d<=last.getDate(); d++) {
+                const fStr = `${nav.getFullYear()}-${(nav.getMonth()+1).toString().padStart(2,'0')}-${d.toString().padStart(2,'0')}`;
+                let cls = "day-box";
+                // Lógica de marcadores magenta
+                if(['2026-04-30','2026-07-17','2026-10-02','2026-12-03'].includes(fStr)) cls += " marker-magenta";
+                if(nav.getMonth() === 6 && d >= 20 && d <= 31) cls += " is-receso";
+                if(nav.getMonth() === 3 && [2,3].includes(d)) cls += " is-feriado";
+
+                const dEvs = evs.filter(e => e.fecha === fStr);
                 grid.innerHTML += `
-                    <div class="${clase}" onclick="openModal(${i})">
-                        <span class="text-lg font-bold">${i}</span> ${badge}
-                        ${i==2 ? '<p class="text-[7px] leading-tight text-red-500">Día del Veterano</p>' : ''}
+                    <div class="${cls}" onclick="openM('${fStr}')">
+                        <span class="font-bold text-sm">${d}</span>
+                        <div class="mt-1">${dEvs.map(e => `<span class="event-dot">${e.hora} | ${e.anio}</span>`).join('')}</div>
                     </div>`;
             }
         }
 
-        document.getElementById('form').onsubmit = async (e) => {
-            e.preventDefault();
-            // Lógica de envío igual a la que te funcionó
-            alert("¡Actividad enviada a tu Google Sheets!");
-            closeModal();
-        }
+        function openM(f) { document.getElementById('mFecha').innerText = f; document.getElementById('modal').classList.remove('hidden'); }
+        function closeModal() { document.getElementById('modal').classList.add('hidden'); }
+        function changeMonth(n) { nav.setMonth(nav.getMonth() + n); render(); }
+        function setT(el, v) { document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active')); el.classList.add('active'); tSel = v; }
 
-        render();
+        document.getElementById('fAg').onsubmit = async (e) => {
+            e.preventDefault();
+            const b = document.getElementById('btnG'); b.innerText = "ENVIANDO..."; b.disabled = true;
+            const p = {
+                fecha: document.getElementById('mFecha').innerText,
+                hora: document.getElementById('h1').value,
+                nombres: document.getElementById('doc').value,
+                anio: document.getElementById('anio').value,
+                division: document.getElementById('divi').value,
+                materia: document.getElementById('mat').value,
+                rol: document.getElementById('rol').value,
+                tipo: tSel
+            };
+            await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(p) });
+            alert("¡Guardado exitoso!"); location.reload();
+        }
+        init();
     </script>
 </body>
 </html>
