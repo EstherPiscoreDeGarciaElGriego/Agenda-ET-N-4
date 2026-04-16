@@ -3,196 +3,247 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agenda Técnica N°4 - 2026</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Agenda Escolar Técnica 2026</title>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        :root { --v-dark: #1a1a1a; --v-et4: #2d6a4f; --magenta: #d946ef; --cyan: #06b6d4; --amarillo: #fbbf24; }
-        h1, h2, h3, .font-oswald { font-family: 'Oswald', sans-serif; }
-        body { font-family: 'Source Sans 3', sans-serif; background-color: var(--v-dark); color: white; margin: 0; padding: 15px; }
-        
-        /* Calendario Grilla Real */
-        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; background: #444; border: 2px solid #444; border-radius: 15px; overflow: hidden; }
-        .day-box { background: white; color: #333; min-height: 100px; padding: 8px; position: relative; transition: 0.2s; }
-        .day-box:hover { background: #f0fdf4; cursor: pointer; }
-        .day-name { background: #1b4332; color: white; text-align: center; padding: 10px; font-weight: bold; font-size: 0.7rem; }
-        
-        .other-month { background: #e5e7eb; color: #9ca3af; }
-        .is-today { background: #fef3c7 !important; border: 3px solid var(--amarillo); }
-        .is-feriado { background: #fce7f3 !important; }
-        .is-receso { background: #e0f2fe !important; }
-        .marker-magenta { border-bottom: 5px solid var(--magenta) !important; }
-        
-        .event-dot { background: var(--v-et4); color: white; font-size: 9px; padding: 2px 4px; border-radius: 4px; margin-top: 2px; display: block; overflow: hidden; white-space: nowrap; }
+        :root {
+            --v-oscuro: #1a4731; --v-medio: #2d6a4f; --v-claro: #52b788; --v-menta: #d8f3dc;
+            --blanco: #f8fffe; --gris: #f0f4f2; --magenta: #d946ef; --naranja: #e07b39;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Source Sans 3', sans-serif; background: var(--gris); color: #1c2b24; }
+        h1, h2, h3 { font-family: 'Oswald', sans-serif; text-transform: uppercase; }
 
-        /* Modal Estilo Screenshot */
-        .modal-overlay { background: rgba(0,0,0,0.9); backdrop-blur: 5px; }
-        .modal-card { background: white; color: #333; border-radius: 25px; width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; }
-        .type-btn { border: 2px solid #eee; padding: 10px; border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 11px; display: flex; align-items: center; gap: 6px; }
-        .type-btn.active { border-color: var(--v-et4); background: #f0fdf4; color: var(--v-et4); }
-        .dot-status { width: 8px; height: 8px; border-radius: 50%; background: #ccc; }
-        .active .dot-status { background: var(--v-et4); }
-        
-        input, select, textarea { border-bottom: 2px solid #eee; padding: 10px; width: 100%; outline: none; background: transparent; }
-        input:focus { border-color: var(--v-et4); }
+        /* HEADER */
+        .header { background: linear-gradient(135deg, var(--v-oscuro), var(--v-medio)); color: white; padding: 20px; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        .header-content { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .btn-nuevo { background: var(--v-claro); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .btn-nuevo:hover { background: #63cf9d; transform: translateY(-2px); }
+
+        /* LAYOUT */
+        .container { max-width: 1200px; margin: 20px auto; display: grid; grid-template-columns: 300px 1fr; gap: 20px; padding: 0 20px; }
+        .sidebar { display: flex; flex-direction: column; gap: 20px; }
+        .card { background: white; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); padding: 20px; }
+        .card h3 { color: var(--v-oscuro); border-bottom: 2px solid var(--v-menta); margin-bottom: 15px; font-size: 1rem; }
+
+        /* CALENDARIO */
+        .cal-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; background: #ddd; border-radius: 12px; overflow: hidden; border: 1px solid #ddd; }
+        .cal-day-name { background: var(--v-oscuro); color: white; text-align: center; padding: 10px; font-size: 0.7rem; font-weight: bold; }
+        .cal-day { background: white; min-height: 110px; padding: 10px; position: relative; cursor: pointer; transition: 0.2s; }
+        .cal-day:hover { background: #f0faf5; }
+        .cal-day.today { background: #fef3c7; border: 2px solid #fbbf24; }
+        .cal-day.feriado { background: #fdf0ec; }
+        .cal-day.receso { background: #e8f4fd; }
+        .cal-day.bimestre { border-bottom: 5px solid var(--magenta); }
+        .dia-num { font-family: 'Oswald', sans-serif; font-size: 1rem; color: #666; }
+        .event-chip { font-size: 0.65rem; background: var(--v-medio); color: white; padding: 2px 4px; border-radius: 4px; margin-top: 2px; overflow: hidden; white-space: nowrap; }
+
+        /* MODAL */
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: none; align-items: center; justify-content: center; z-index: 1000; }
+        .modal.visible { display: flex; }
+        .modal-box { background: white; width: 95%; max-width: 600px; border-radius: 20px; overflow: hidden; max-height: 90vh; overflow-y: auto; }
+        .modal-header { background: var(--v-oscuro); color: white; padding: 20px; display: flex; justify-content: space-between; }
+        .form-body { padding: 25px; display: flex; flex-direction: column; gap: 15px; }
+        label { font-size: 0.75rem; font-weight: bold; color: #666; text-transform: uppercase; }
+        input, select, textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-family: inherit; }
+        .alert-conflict { background: #fff5f5; border: 1px solid #feb2b2; color: #c53030; padding: 10px; border-radius: 8px; display: none; font-size: 0.8rem; }
+
+        @media (max-width: 800px) { .container { grid-template-columns: 1fr; } .sidebar { display: none; } }
     </style>
 </head>
 <body>
 
-    <header class="max-w-4xl mx-auto mb-6 bg-[#1b4332] p-6 rounded-3xl border-l-[15px] border-[#d946ef] shadow-2xl">
-        <h1 class="text-2xl font-bold uppercase tracking-tighter">AGENDA TÉCNICA N°4</h1>
-        <p class="text-cyan-400 font-bold uppercase text-[10px]">Gestión 2026 • Quilmes (CABA)</p>
-    </header>
-
-    <div class="max-w-4xl mx-auto flex justify-between items-center mb-6">
-        <button onclick="changeMonth(-1)" class="bg-[#d946ef] p-3 rounded-xl">◀</button>
-        <div class="text-center">
-            <h2 id="mesTit" class="text-4xl font-bold uppercase italic tracking-widest">Abril 2026</h2>
-            <p id="subTit" class="text-cyan-400 font-bold text-xs uppercase"></p>
+<header class="header">
+    <div class="header-content">
+        <div>
+            <h1>Agenda Técnica N°4</h1>
+            <p style="font-size: 0.8rem; opacity: 0.8;">Gestión Institucional Ciclo 2026</p>
         </div>
-        <button onclick="changeMonth(1)" class="bg-[#d946ef] p-3 rounded-xl">▶</button>
+        <button class="btn-nuevo" onclick="abrirForm()">➕ NUEVO EVENTO</button>
     </div>
+</header>
 
-    <div id="calendar" class="calendar-grid max-w-4xl mx-auto shadow-2xl"></div>
+<div class="container">
+    <aside class="sidebar">
+        <div class="card">
+            <h3>📅 Referencias</h3>
+            <ul style="list-style: none; font-size: 0.8rem; line-height: 2;">
+                <li><span style="color:var(--magenta)">▬</span> Cierre de Bimestre</li>
+                <li><span style="color:#c1440e">●</span> Feriado Nacional</li>
+                <li><span style="color:#1a5f8a">●</span> Receso Escolar</li>
+                <li><span style="color:var(--v-medio)">●</span> Actividad Reservada</li>
+            </ul>
+        </div>
+        <div class="card">
+            <h3>📋 Hitos del Mes</h3>
+            <div id="hitos-lista" style="font-size: 0.75rem; color: #555;"></div>
+        </div>
+    </aside>
 
-    <div id="modal" class="fixed inset-0 modal-overlay hidden z-50 flex items-center justify-center p-4">
-        <div class="modal-card shadow-2xl">
-            <div class="bg-[#1b4332] p-5 text-white flex justify-between items-center">
-                <div>
-                    <h2 id="mFecha" class="font-oswald text-xl italic uppercase">Fecha</h2>
-                    <p class="text-[10px] text-cyan-300 font-bold uppercase tracking-widest">Nueva Actividad</p>
-                </div>
-                <button onclick="closeModal()" class="bg-[#d946ef] w-8 h-8 rounded-full flex items-center justify-center font-bold">✕</button>
+    <main>
+        <div class="cal-nav">
+            <button onclick="cambiarMes(-1)" style="padding: 10px; border: none; background: var(--v-menta); border-radius: 8px; cursor: pointer;">◀</button>
+            <h2 id="mes-titulo">Abril 2026</h2>
+            <button onclick="cambiarMes(1)" style="padding: 10px; border: none; background: var(--v-menta); border-radius: 8px; cursor: pointer;">▶</button>
+        </div>
+        <div class="cal-grid" id="grid">
             </div>
-            
-            <form id="fAg" class="p-8 space-y-6">
-                <div class="grid grid-cols-2 gap-4">
-                    <select id="rol"><option>Profesor/es</option><option>DOE</option><option>Directivo</option><option>Coordinación</option></select>
-                    <input type="text" id="doc" placeholder="Nombre/s del docente" required>
-                </div>
+    </main>
+</div>
 
-                <div class="grid grid-cols-2 gap-4">
-                    <select id="anio" onchange="checkColision()"><option value="">Año...</option><option>1°</option><option>2°</option><option>3°</option><option>4°</option><option>5°</option><option>6°</option></select>
-                    <select id="divi" onchange="checkColision()"><option value="">División...</option><option>1°</option><option>2°</option><option>3°</option><option>4°</option><option>5°</option><option>6°</option></select>
-                </div>
-
-                <div class="grid grid-cols-2 gap-4">
-                    <select id="area"><option>Cs. Sociales</option><option>Cs. Naturales</option><option>Comunicación</option><option>Técnica</option></select>
-                    <input type="text" id="mat" placeholder="Materia / Proyecto">
-                </div>
-
-                <div class="grid grid-cols-2 gap-4 items-center">
-                    <div><label class="text-[9px] font-bold text-gray-400 uppercase">Inicio</label><select id="h1" onchange="checkColision()"></select></div>
-                    <div><label class="text-[9px] font-bold text-gray-400 uppercase">Fin</label><select id="h2"></select></div>
-                </div>
-
-                <div>
-                    <label class="text-[9px] font-bold text-gray-400 uppercase mb-2 block">Tipo de Evento</label>
-                    <div class="grid grid-cols-2 gap-2">
-                        <div class="type-btn" onclick="setT(this, 'ACTO')"><span class="dot-status"></span> ACTO ESCOLAR</div>
-                        <div class="type-btn" onclick="setT(this, 'SALIDA')"><span class="dot-status"></span> SALIDA DIDÁCTICA</div>
-                        <div class="type-btn" onclick="setT(this, 'REUNION')"><span class="dot-status"></span> REUNIÓN</div>
-                        <div class="type-btn" onclick="setT(this, 'OTRO')"><span class="dot-status"></span> EVENTO EDUCATIVO</div>
-                    </div>
-                </div>
-
-                <div id="err" class="hidden bg-red-100 text-red-700 p-3 rounded-xl text-xs font-bold">⚠️ Ya existe una reserva para este curso en este horario.</div>
-
-                <button type="submit" id="btnG" class="w-full bg-[#1b1b1b] text-white py-4 rounded-2xl font-bold shadow-xl border-b-4 border-black">✓ Guardar actividad</button>
-            </form>
+<div id="modal" class="modal">
+    <div class="modal-box">
+        <div class="modal-header">
+            <h2 id="modal-fecha-txt">NUEVA ACTIVIDAD</h2>
+            <button onclick="cerrarForm()" style="background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer;">&times;</button>
         </div>
-    </div>
-
-    <script>
-        const SCRIPT_URL = https://script.google.com/macros/s/AKfycbzvkAd7W_ilsEBYtdVXDPfjen0eciM67fn6yVYHw6_FV5E0lxfwnr45q_qsa53eVrUK/exec;
-        let nav = new Date(2026, 3, 1);
-        let evs = [];
-        let tSel = "";
-
-        // Llenar horas 5 min
-        const s1 = document.getElementById('h1'); const s2 = document.getElementById('h2');
-        for(let h=7; h<=21; h++) for(let m=0; m<60; m+=5) {
-            let t = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}`;
-            s1.innerHTML += `<option value="${t}">${t}</option>`; s2.innerHTML += `<option value="${t}">${t}</option>`;
-        }
-
-        async function init() {
-            try { const r = await fetch(SCRIPT_URL); evs = await r.json(); render(); } catch(e) { render(); }
-        }
-
-        function checkColision() {
-            const f = document.getElementById('mFecha').innerText;
-            const h = document.getElementById('h1').value;
-            const a = document.getElementById('anio').value;
-            const d = document.getElementById('divi').value;
-            const c = evs.some(e => e.fecha === f && e.hora === h && e.anio === a && e.division === d);
-            document.getElementById('err').classList.toggle('hidden', !c);
-            document.getElementById('btnG').disabled = c;
-            document.getElementById('btnG').style.opacity = c ? "0.5" : "1";
-        }
-
-        function render() {
-            const grid = document.getElementById('calendar');
-            const tit = document.getElementById('mesTit');
-            const sub = document.getElementById('subTit');
-            const meses = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
+        <form id="agendaForm" class="form-body">
+            <div id="conflict-msg" class="alert-conflict">⚠️ Ya existe una reserva para este curso en este horario.</div>
             
-            tit.innerText = `${meses[nav.getMonth()]} ${nav.getFullYear()}`;
-            // Hitos PDF
-            const m = nav.getMonth();
-            if(m==2) sub.innerText = "Inicio Ciclo Lectivo: 2 de Marzo";
-            else if(m==3) sub.innerText = "1° Bimestre / 1° Cuatrimestre";
-            else if(m==6) sub.innerText = "Cierre 1° Cuat. / Receso Invernal";
-            else if(m==11) sub.innerText = "Finalización de Clases: 18 de Dic";
-            else sub.innerText = "";
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div>
+                    <label>Fecha</label>
+                    <input type="date" id="fFecha" required onchange="verificarConflictos()">
+                </div>
+                <div>
+                    <label>Horario</label>
+                    <select id="fHora" onchange="verificarConflictos()"></select>
+                </div>
+            </div>
 
-            grid.innerHTML = ["LUN","MAR","MIÉ","JUE","VIE","SÁB","DOM"].map(d => `<div class="day-name">${d}</div>`).join('');
+            <div>
+                <label>Responsable (Docente/DOE/Directivo)</label>
+                <input type="text" id="fNombre" placeholder="Nombre y Apellido" required>
+            </div>
 
-            const first = new Date(nav.getFullYear(), nav.getMonth(), 1);
-            const last = new Date(nav.getFullYear(), nav.getMonth() + 1, 0);
-            let shift = first.getDay() === 0 ? 6 : first.getDay() - 1;
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div>
+                    <label>Año</label>
+                    <select id="fAnio" onchange="verificarConflictos()">
+                        <option value="">Seleccionar...</option>
+                        <option>1°</option><option>2°</option><option>3°</option><option>4°</option><option>5°</option><option>6°</option>
+                    </select>
+                </div>
+                <div>
+                    <label>División</label>
+                    <select id="fDiv" onchange="verificarConflictos()">
+                        <option value="">Seleccionar...</option>
+                        <option>1ª</option><option>2ª</option><option>3ª</option><option>4ª</option><option>5ª</option><option>6ª</option>
+                    </select>
+                </div>
+            </div>
 
-            for(let i=0; i<shift; i++) grid.innerHTML += `<div class="day-box other-month"></div>`;
+            <div>
+                <label>Materia / Proyecto</label>
+                <input type="text" id="fMateria" placeholder="Nombre de la materia">
+            </div>
 
-            for(let d=1; d<=last.getDate(); d++) {
-                const fStr = `${nav.getFullYear()}-${(nav.getMonth()+1).toString().padStart(2,'0')}-${d.toString().padStart(2,'0')}`;
-                let cls = "day-box";
-                // Lógica de marcadores magenta
-                if(['2026-04-30','2026-07-17','2026-10-02','2026-12-03'].includes(fStr)) cls += " marker-magenta";
-                if(nav.getMonth() === 6 && d >= 20 && d <= 31) cls += " is-receso";
-                if(nav.getMonth() === 3 && [2,3].includes(d)) cls += " is-feriado";
+            <div>
+                <label>Observaciones</label>
+                <textarea id="fObs" rows="3"></textarea>
+            </div>
 
-                const dEvs = evs.filter(e => e.fecha === fStr);
-                grid.innerHTML += `
-                    <div class="${cls}" onclick="openM('${fStr}')">
-                        <span class="font-bold text-sm">${d}</span>
-                        <div class="mt-1">${dEvs.map(e => `<span class="event-dot">${e.hora} | ${e.anio}</span>`).join('')}</div>
-                    </div>`;
+            <button type="submit" id="btnGuardar" style="background: var(--v-oscuro); color: white; padding: 15px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">💾 GUARDAR ACTIVIDAD</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbxck7r1H7lTend8UC6VExgCXwdLh1PTzpFi0ZiDeGS8otQPxb0nXXZRrWgcTTe0-BY9/exec';
+    let mesActual = new Date(2026, 3, 1);
+    let eventos = [];
+
+    // Feriados y Hitos
+    const feriados = {'2026-04-02': 'Malvinas', '2026-04-03': 'Viernes Santo', '2026-05-01': 'Trabajador', '2026-05-25': 'Revolución'};
+    const cierres = ['2026-04-30', '2026-07-17', '2026-10-02', '2026-12-03'];
+
+    function poblarHoras() {
+        const sel = document.getElementById('fHora');
+        for(let h=7; h<=22; h++) {
+            for(let m=0; m<60; m+=5) {
+                let t = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}`;
+                sel.innerHTML += `<option value="${t}">${t} hs</option>`;
             }
         }
+    }
 
-        function openM(f) { document.getElementById('mFecha').innerText = f; document.getElementById('modal').classList.remove('hidden'); }
-        function closeModal() { document.getElementById('modal').classList.add('hidden'); }
-        function changeMonth(n) { nav.setMonth(nav.getMonth() + n); render(); }
-        function setT(el, v) { document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active')); el.classList.add('active'); tSel = v; }
+    async function cargarDatos() {
+        try {
+            const resp = await fetch(WEBAPP_URL);
+            eventos = await resp.json();
+            render();
+        } catch (e) { console.error("Error al cargar", e); render(); }
+    }
 
-        document.getElementById('fAg').onsubmit = async (e) => {
-            e.preventDefault();
-            const b = document.getElementById('btnG'); b.innerText = "ENVIANDO..."; b.disabled = true;
-            const p = {
-                fecha: document.getElementById('mFecha').innerText,
-                hora: document.getElementById('h1').value,
-                nombres: document.getElementById('doc').value,
-                anio: document.getElementById('anio').value,
-                division: document.getElementById('divi').value,
-                materia: document.getElementById('mat').value,
-                rol: document.getElementById('rol').value,
-                tipo: tSel
-            };
-            await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(p) });
-            alert("¡Guardado exitoso!"); location.reload();
+    function render() {
+        const grid = document.getElementById('grid');
+        const tit = document.getElementById('mes-titulo');
+        grid.innerHTML = ['DOM','LUN','MAR','MIE','JUE','VIE','SAB'].map(d => `<div class="cal-day-name">${d}</div>`).join('');
+        
+        tit.innerText = mesActual.toLocaleDateString('es-AR', {month:'long', year:'numeric'}).toUpperCase();
+        
+        const primerDia = new Date(mesActual.getFullYear(), mesActual.getMonth(), 1).getDay();
+        const ultimoDia = new Date(mesActual.getFullYear(), mesActual.getMonth() + 1, 0).getDate();
+
+        for(let i=0; i<primerDia; i++) grid.innerHTML += `<div class="cal-day" style="background:#eee"></div>`;
+
+        for(let d=1; d<=ultimoDia; d++) {
+            const fecha = `${mesActual.getFullYear()}-${(mesActual.getMonth()+1).toString().padStart(2,'0')}-${d.toString().padStart(2,'0')}`;
+            let clases = "cal-day";
+            if(feriados[fecha]) clases += " feriado";
+            if(cierres.includes(fecha)) clases += " bimestre";
+            
+            const evsDia = eventos.filter(e => e.fecha === fecha);
+            
+            grid.innerHTML += `
+                <div class="${clases}" onclick="abrirForm('${fecha}')">
+                    <div class="dia-num">${d}</div>
+                    ${feriados[fecha] ? `<div style="font-size:0.6rem; color:#c1440e; font-weight:bold">${feriados[fecha]}</div>` : ''}
+                    <div class="ev-cont">
+                        ${evsDia.map(e => `<div class="event-chip">${e.hora} ${e.anio}°${e.division}</div>`).join('')}
+                    </div>
+                </div>`;
         }
-        init();
-    </script>
+    }
+
+    function verificarConflictos() {
+        const f = document.getElementById('fFecha').value;
+        const h = document.getElementById('fHora').value;
+        const a = document.getElementById('fAnio').value;
+        const d = document.getElementById('fDiv').value;
+        const con = eventos.some(e => e.fecha === f && e.hora === h && e.anio === a && e.division === d);
+        document.getElementById('conflict-msg').style.display = con ? 'block' : 'none';
+        document.getElementById('btnGuardar').disabled = con;
+    }
+
+    document.getElementById('agendaForm').onsubmit = async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById('btnGuardar');
+        btn.innerText = "⏳ GUARDANDO...";
+        const data = {
+            fecha: document.getElementById('fFecha').value,
+            hora: document.getElementById('fHora').value,
+            nombres: document.getElementById('fNombre').value,
+            anio: document.getElementById('fAnio').value,
+            division: document.getElementById('fDiv').value,
+            materia: document.getElementById('fMateria').value,
+            observaciones: document.getElementById('fObs').value
+        };
+        await fetch(WEBAPP_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(data) });
+        alert("¡Actividad guardada!");
+        location.reload();
+    };
+
+    function abrirForm(f) { 
+        if(f) document.getElementById('fFecha').value = f;
+        document.getElementById('modal').classList.add('visible'); 
+    }
+    function cerrarForm() { document.getElementById('modal').classList.remove('visible'); }
+    function cambiarMes(dir) { mesActual.setMonth(mesActual.getMonth() + dir); render(); }
+
+    poblarHoras();
+    cargarDatos();
+</script>
 </body>
 </html>
